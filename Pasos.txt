@@ -1,0 +1,69 @@
+1- cremos la clase que base de nuestra base de datos, en mi caso job
+    ----> lo cree en la carpeta models
+
+2- creamos la carpeta Data y ahi vamos a crear un archivo para el contexto 
+encargado de administrar la concexion con la base de datos en mi caso JobController.cs
+        ----> declaramos la clase que va heredar del DbContext public class JobDbContext : DbContext    
+         [ DbContext  Actúa como un intermediario entre la aplicación y la base de datos]
+         [DbContext proporciona las funcionalidades básicas para interactuar con la base de datos en Entity Framework Core (EF Core). ]
+
+
+3 - Configuración de la Cadena de Conexión:
+    para hacer esto debemos irnos al archivo Appsettings.json, y debemos poner
+
+    ----->
+        "ConnectionStrings": {
+            "JobDbContext": "Server=; Database= ;User= ;Password= ;" 
+        }
+    <-----
+
+        ( la palabra "ConnectionStrings" es una convención utilizada en ASP.NET Core para definir las cadenas de conexión a bases de datos)
+        ( Recueda rellenar la cadena de conexion con los datos de tu servidor )
+
+        (
+            Porque "JobDbContext " ? 
+            ESTO LO UTILIZAMOS COMO IDENTIFICADOR Y POSTERIOR MENTE LO LLAMAMOS EN EL  " JobDbContext.cs "
+        )
+
+4- Configurar el Contexto de Base de Datos en Program.cs:
+
+    ----->
+        var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddDbContext<JobDbContext>(options =>
+
+            options.UseMySql(
+                builder.Configuration.GetConnectionString("JobDbContext"),
+                new MySqlServerVersion(new Version(8, 0, 21)) 
+            )
+        );
+    <-----
+        
+        (métodos, propiedades, campos, eventos, o incluso otras clases anidadas)
+        (
+            builder es un objeto de ASP.net, los que usaremos por ahora seran:  
+
+                --builder.Services  
+                    [Nos permite agregar servicios al contenedor de inyecccion, en este caso lo utilizamos para registrar un servico de una base de datos]
+                    esto significa 
+                    --->decirle a tu aplicación cómo conectarse y trabajar con una base de datos.<--
+
+                -- AddDbContext<JobDbContext>
+                    Luego de esto usamos usaremos en este caso "AddDbContext" seguido <Nuestrto context> en este caso "<JobDbContext>"
+                    "Aca decimos quien se encargará de la conexión con el almacén (base de datos)y sera nuestro (JobDbContext) ".
+
+                -- options => options.UseMySql()
+                    Luego hacemos una  expresion lambda que Configura cómo el contexto de datos (JobDbContext) debe conectarse a la base de datos. 
+                    La variable options aquí es el objeto
+                    DbContextOptionsBuilder [que lo definiriemos en este caso en JobDbContext.cs en la carpeta Data] 
+                    que se usa para especificar detalles sobre la conexión a la base de datos.
+
+                    es como usar el objeto opcions de DbContextOptionsBuilder  y luego con option y . 
+                    podemos aceder a muchas mas opciones, no solo UseMySql. (options.UseSqlServer, options.UseNpgsql..ETC)
+                    [pero para este programa estoy utilizando pomelo, cada uno de los anteriores necestia paquetes adicionales que actuan como extenciones dle EF]
+                
+                -- builder.Configuration.GetConnectionString("JobDbContext"),new MySqlServerVersion(new Version(8, 0, 21)) 
+                    luego le dicemos el programa donde buscar la cadena de conexion acediendo al 
+                    builder.Configuration.GetConnectionString("el nombre que le pongamos en el json")
+
+         )

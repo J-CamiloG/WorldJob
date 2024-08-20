@@ -1,0 +1,42 @@
+﻿@model IEnumerable<JobWebApp.Models.Job>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <div>
+        <h1 class="display-4">Discover Your Dream Job with Us</h1>
+        <p>Empowering Careers, One Job at a Time.</p>
+
+        <form class="form-inline my-2 my-lg-0 d-flex">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    
+    <div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <a class="btn btn-success" asp-controller="Job" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-danger" asp-controller="Job" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+@model JobWebApp.Models.Job
+
+<h2>Delete Job</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" />
+    </form>
+</div>

@@ -1,0 +1,15 @@
+@model JobWebApp.Models.Job
+
+@{
+    ViewData["Title"] = "Edit Job";
+}
+<h2>Edit Job</h2>
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+        <div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name" />
+        </div>
+    <input type="submit" value="Save" />
+</form>
